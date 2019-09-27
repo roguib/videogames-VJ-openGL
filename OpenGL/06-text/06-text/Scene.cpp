@@ -21,25 +21,13 @@ Scene::~Scene()
 
 void Scene::init()
 {
-	//mida del terra (punt on comença i punt on acaba)
 	glm::vec2 geom[2] = { glm::vec2(0.f, 0.f), glm::vec2(CAMERA_WIDTH - 1, (CAMERA_HEIGHT - 1) / 3.f) };
 	glm::vec2 texCoords[2] = { glm::vec2(0.f, 0.f), glm::vec2(5.f, 1.f) };
 	x = (CAMERA_WIDTH - 1) / 2.0f;
 
 	initShaders();
-	/*quad = Quad::createQuad(0.f, 0.f, 128.f, 128.f, simpleProgram);
-	texCoords[0] = glm::vec2(0.f, 0.f); texCoords[1] = glm::vec2(0.5f, 0.5f);
-	texQuad[0] = TexturedQuad::createTexturedQuad(geom, texCoords, texProgram);
-	texCoords[0] = glm::vec2(0.5f, 0.5f); texCoords[1] = glm::vec2(1.f, 1.f);
-	texQuad[1] = TexturedQuad::createTexturedQuad(geom, texCoords, texProgram);
-	texCoords[0] = glm::vec2(0.f, 0.f); texCoords[1] = glm::vec2(2.f, 2.f);
-	texQuad[2] = TexturedQuad::createTexturedQuad(geom, texCoords, texProgram);*/
-	
-	//cel
 	cel = Quad::createQuad(0.f, 0.f, CAMERA_WIDTH - 1, 2.f*(CAMERA_HEIGHT - 1) / 3.f, simpleProgram);
-	//terra
 	texQuad[2] = TexturedQuad::createTexturedQuad(geom, texCoords, texProgram);
-	//bolet
 	geom[0] = glm::vec2(0.f, 0.f);
 	geom[1] = glm::vec2(50.f, 50.f);
 	texCoords[0] = glm::vec2(0.f, 0.5f);
@@ -55,8 +43,6 @@ void Scene::init()
 	
 	// Select which font you want to use
 	if(!text.init("fonts/OpenSans-Regular.ttf"))
-	//if(!text.init("fonts/OpenSans-Bold.ttf"))
-	//if(!text.init("fonts/DroidSerif.ttf"))
 		cout << "Could not load font!!!" << endl;
 }
 
@@ -110,7 +96,6 @@ void Scene::render()
 {
 	glm::mat4 modelview;
 
-	//si el personatge s'ha mogut x implementar una càmara que es mogui -x
 	simpleProgram.use();
 	simpleProgram.setUniformMatrix4f("projection", projection);
 	simpleProgram.setUniform4f("color", 0.2f, 0.2f, 0.8f, 1.0f);
@@ -119,7 +104,6 @@ void Scene::render()
 	simpleProgram.setUniformMatrix4f("modelview", modelview);
 	cel->render();
 
-	//terra
 	texProgram.use();
 	texProgram.setUniformMatrix4f("projection", projection);
 	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
@@ -127,7 +111,6 @@ void Scene::render()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texQuad[2]->render(texs[1]);
 
-	//bolet
 	texProgram.use();
 	texProgram.setUniformMatrix4f("projection", projection);
 	modelview = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 0.f));
