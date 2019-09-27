@@ -30,30 +30,6 @@ void Scene::update(int deltaTime)
 }
 
 void Scene::computeX(glm::mat4 &modelview, bool needsScaling) {
-	/*program.use();
-	if (goingLeft) {
-		x += 2.f;
-		modelview = glm::translate(modelview, glm::vec3(x + 2.f, 0.f, 0.f));
-		if (needsScaling) {
-			scaleFactor -= 0.01f;
-			program.setUniform1f("scale", scaleFactor);
-		}
-		else {
-			program.setUniform1f("scale", 1.0f);
-		}
-	}
-	else {
-		x -= 2.f;
-		modelview = glm::translate(modelview, glm::vec3(x - 2.f, 0.f, 0.f));
-		if (needsScaling) {
-			scaleFactor += 0.01f;
-			program.setUniform1f("scale", scaleFactor);
-		}
-		else {
-			program.setUniform1f("scale", 1.0f);
-		}
-	}*/
-
 	program.use();
 	if (goingLeft) x += 2.f;
 	else x -= 2.f;
