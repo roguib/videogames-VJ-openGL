@@ -28,6 +28,8 @@ private:
 	Quad *quads[4];
 	ShaderProgram program;
 	float currentTime;
+	float SCALE_FACTOR = 0.5f;
+	float INITIAL_COLOR_VALUE = 1.0f / 2.0f;
 
 };
 

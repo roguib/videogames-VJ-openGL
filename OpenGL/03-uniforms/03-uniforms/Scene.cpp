@@ -33,17 +33,18 @@ void Scene::update(int deltaTime)
 void Scene::render()
 {
 	// Change quad colors using elapsed time
+	
 	float value = (sin(currentTime / 1000.f) + 1.0f) / 2.0f;
-
 	program.use();
-	program.setUniform4f("color", value, value, value, 1.0f);
+	program.setUniform4f("color", INITIAL_COLOR_VALUE + value, INITIAL_COLOR_VALUE + value, INITIAL_COLOR_VALUE + value, 1.0f); //abaix esquerra ok
 	quads[0]->render();
-	program.setUniform4f("color", value, 0, 0, 1.0f);
+	program.setUniform4f("color", INITIAL_COLOR_VALUE + value, value, value, 1.0f);
 	quads[1]->render();
-	program.setUniform4f("color", 0, value, 0, 1.0f);
+	program.setUniform4f("color", value, INITIAL_COLOR_VALUE + value, value, 1.0f);
 	quads[2]->render();
-	program.setUniform4f("color", 0, 0, value, 1.0f);
+	program.setUniform4f("color", value, value, INITIAL_COLOR_VALUE + value, 1.0f);
 	quads[3]->render();
+	program.setUniform1f("scale", SCALE_FACTOR);
 }
 
 void Scene::initShaders()
