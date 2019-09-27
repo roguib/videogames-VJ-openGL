@@ -36,7 +36,7 @@ void Scene::render()
 	
 	float value = (sin(currentTime / 1000.f) + 1.0f) / 2.0f;
 	program.use();
-	program.setUniform4f("color", INITIAL_COLOR_VALUE + value, INITIAL_COLOR_VALUE + value, INITIAL_COLOR_VALUE + value, 1.0f); //abaix esquerra ok
+	program.setUniform4f("color", INITIAL_COLOR_VALUE + value, INITIAL_COLOR_VALUE + value, INITIAL_COLOR_VALUE + value, 1.0f);
 	quads[0]->render();
 	program.setUniform4f("color", INITIAL_COLOR_VALUE + value, value, value, 1.0f);
 	quads[1]->render();
