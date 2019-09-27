@@ -28,12 +28,16 @@ public:
 
 private:
 	void initShaders();
+	void computeX(glm::mat4 &modelview, bool needsScaling);
 
 private:
+	float x = 0.0f;
 	Quad *quad;
 	ShaderProgram program;
 	float currentTime;
 	glm::mat4 projection;
+	bool goingLeft = true;
+	float scaleFactor = 1.0f;
 
 };
 
