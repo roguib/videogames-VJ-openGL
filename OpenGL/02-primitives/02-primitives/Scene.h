@@ -4,6 +4,7 @@
 
 #include "ShaderProgram.h"
 #include "Quad.h"
+#include "Triangle.h"
 
 
 // Scene contains all the entities of our game.
@@ -23,9 +24,10 @@ public:
 
 private:
 	void initShaders();
-
+	 
 private:
 	Quad *quads[4];
+	Triangle *triangle;
 	ShaderProgram program;
 
 };

@@ -1,0 +1,5 @@
+﻿  Triangle.cpp
+c:\users\roger\desktop\exopengl3\opengl\02-primitives\02-primitives\triangle.cpp(15): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\roger\desktop\exopengl3\opengl\02-primitives\02-primitives\triangle.cpp(15): warning C4305: 'initializing': truncation from 'double' to 'float'
+  02-primitives.vcxproj -> C:\Users\roger\Desktop\ExOpenGL3\OpenGL\02-primitives\Debug\02-primitives.exe
+  02-primitives.vcxproj -> C:\Users\roger\Desktop\ExOpenGL3\OpenGL\02-primitives\Debug\02-primitives.pdb (Full PDB)

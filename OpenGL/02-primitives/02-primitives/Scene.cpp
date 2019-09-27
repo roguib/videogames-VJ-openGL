@@ -2,10 +2,12 @@
 #include "Scene.h"
 
 
+
 Scene::Scene()
 {
 	for(int i = 0; i < 4; i++)
 		quads[i] = NULL;
+	triangle = NULL;
 }
 
 Scene::~Scene()
@@ -13,14 +15,17 @@ Scene::~Scene()
 	for(int i = 0; i < 4; i++)
 		if(quads[i] != NULL)
 			delete quads[i];
+	if (triangle != NULL) delete triangle;
 }
 
 
 void Scene::init()
 {
+	//OutputDebugStringA("My output string."); //include windows.h
 	initShaders();
 	for(int i = 0; i < 4; i++)
 		quads[i] = Quad::createQuad(-0.75f + (i % 2), -0.75f + (i / 2), 0.5f, 0.5f, program);
+	triangle = Triangle::createTriangle(1.0f, 1.0f, 0.0f, program);
 }
 
 void Scene::update(int deltaTime)
@@ -32,6 +37,7 @@ void Scene::render()
 	program.use();
 	for(int i = 0; i < 4; i++)
 		quads[i]->render();
+	triangle->render();
 }
 
 void Scene::initShaders()
