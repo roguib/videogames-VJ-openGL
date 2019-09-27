@@ -10,9 +10,15 @@ void Game::init()
 	scene.init();
 }
 
+/*
+	#define GLUT_KEY_LEFT 100
+	#define GLUT_KEY_UP 101
+	#define GLUT_KEY_RIGHT 102
+	#define GLUT_KEY_DOWN 103
+*/
 bool Game::update(int deltaTime)
 {
-	scene.update(deltaTime);
+	scene.update(deltaTime, specialKeys[100], specialKeys[102], specialKeys[101], specialKeys[103]);
 	
 	return bPlay;
 }
