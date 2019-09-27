@@ -21,28 +21,17 @@ Scene::~Scene()
 
 void Scene::init()
 {
-	//mida del terra (punt on comença i punt on acaba)
+	//size of the terrain
 	glm::vec2 geom[2] = {glm::vec2(0.f, 0.f), glm::vec2(CAMERA_WIDTH - 1, (CAMERA_HEIGHT - 1) / 3.f)};
 	glm::vec2 texCoords[2] = {glm::vec2(0.f, 0.f), glm::vec2(5.f, 1.f)};
 	x = 0.0f;
 
 	initShaders();
-	/*quad = Quad::createQuad(0.f, 0.f, 128.f, 128.f, simpleProgram);
-	texCoords[0] = glm::vec2(0.f, 0.f); 
-	texCoords[1] = glm::vec2(0.5f, 0.5f);
-	texQuad[0] = TexturedQuad::createTexturedQuad(geom, texCoords, texProgram);
-	texCoords[0] = glm::vec2(0.5f, 0.5f); 
-	texCoords[1] = glm::vec2(1.f, 1.f);
-	texQuad[1] = TexturedQuad::createTexturedQuad(geom, texCoords, texProgram);
-	texCoords[0] = glm::vec2(0.f, 0.f);*/ 
-	// repliquem el texture quad 2x2
-	/*texCoords[1] = glm::vec2(2.f, 2.f);
-	texQuad[2] = TexturedQuad::createTexturedQuad(geom, texCoords, texProgram);*/
-	//cel
+	//sky
 	cel = Quad::createQuad(0.f, 0.f, CAMERA_WIDTH - 1, 2.f*(CAMERA_HEIGHT - 1) / 3.f, simpleProgram);
-	//terra
+	//terrain
 	texQuad[2] = TexturedQuad::createTexturedQuad(geom, texCoords, texProgram);
-	//bolet
+	//mario's mushroom
 	geom[0] = glm::vec2(0.f, 0.f);
 	geom[1] = glm::vec2(50.f, 50.f);
 	texCoords[0] = glm::vec2(0.f, 0.5f);
@@ -51,7 +40,7 @@ void Scene::init()
 	// Load textures
 	texs[0].loadFromFile("images/varied.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	texs[1].loadFromFile("images/rocks.jpg", TEXTURE_PIXEL_FORMAT_RGB);
-	//una coord del mon virtual és un pixel, perque fem que la camara ortho tingui el mateix tamany que la view
+	// one cordinate of the virtual world is a pixel. We achieve that by setting orth camera the same size as de window's size
 	projection = glm::ortho(0.f, float(CAMERA_WIDTH - 1), float(CAMERA_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 }
@@ -106,16 +95,16 @@ void Scene::render()
 {
 	glm::mat4 modelview;
 
-	//si el personatge s'ha mogut x implementar una càmara que es mogui -x
 	simpleProgram.use();
 	simpleProgram.setUniformMatrix4f("projection", projection);
 	simpleProgram.setUniform4f("color", 0.2f, 0.2f, 0.8f, 1.0f);
 	
+	// sky
 	modelview = glm::translate(modelview, glm::vec3(0.f, 0.f, 0.f));
 	simpleProgram.setUniformMatrix4f("modelview", modelview);
 	cel->render();
 
-	//terra
+	// terrain
 	texProgram.use();
 	texProgram.setUniformMatrix4f("projection", projection);
 	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
@@ -123,46 +112,12 @@ void Scene::render()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texQuad[2]->render(texs[1]);
 
-	//bolet
+	// mushroom
 	texProgram.use();
 	texProgram.setUniformMatrix4f("projection", projection);
 	modelview = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 0.f));
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texQuad[1]->render(texs[0]);
-
-	//en videojocs no portem el objecte al zero zero, el transofrmem i el tornem a portar. en els objectes el zero zero esta al centre baix de l'eix y
-	/*modelview = glm::translate(glm::mat4(1.0f), glm::vec3(128.f, 48.f, 0.f));
-	modelview = glm::translate(modelview, glm::vec3(64.f, 64.f, 0.f));
-	modelview = glm::rotate(modelview, -currentTime / 1000.f, glm::vec3(0.0f, 0.0f, 1.0f));
-	modelview = glm::translate(modelview, glm::vec3(-64.f, -64.f, 0.f));
-	simpleProgram.setUniformMatrix4f("modelview", modelview);
-	quad->render();
-
-	texProgram.use();
-	texProgram.setUniformMatrix4f("projection", projection);
-	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
-
-	modelview = glm::translate(glm::mat4(1.0f), glm::vec3(384.f, 48.f, 0.f));
-	modelview = glm::translate(modelview, glm::vec3(64.f, 64.f, 0.f));
-	modelview = glm::rotate(modelview, currentTime / 1000.f, glm::vec3(0.0f, 0.0f, 1.0f));
-	modelview = glm::translate(modelview, glm::vec3(-64.f, -64.f, 0.f));
-	texProgram.setUniformMatrix4f("modelview", modelview);
-	texQuad[0]->render(texs[0]);
-
-	modelview = glm::translate(glm::mat4(1.0f), glm::vec3(128.f, 304.f, 0.f));
-	modelview = glm::translate(modelview, glm::vec3(64.f, 64.f, 0.f));
-	modelview = glm::rotate(modelview, currentTime / 1000.f, glm::vec3(0.0f, 0.0f, 1.0f));
-	modelview = glm::translate(modelview, glm::vec3(-64.f, -64.f, 0.f));
-	texProgram.setUniformMatrix4f("modelview", modelview);
-	texQuad[1]->render(texs[0]);
-
-	modelview = glm::translate(glm::mat4(1.0f), glm::vec3(384.f, 304.f, 0.f));
-	modelview = glm::translate(modelview, glm::vec3(64.f, 64.f, 0.f));
-	modelview = glm::rotate(modelview, -currentTime / 1000.f, glm::vec3(0.0f, 0.0f, 1.0f));
-	modelview = glm::translate(modelview, glm::vec3(-64.f, -64.f, 0.f));
-	texProgram.setUniformMatrix4f("modelview", modelview);
-	texQuad[2]->render(texs[1]);*/
-
 }
 
 void Scene::initShaders()
