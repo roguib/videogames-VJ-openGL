@@ -24,14 +24,22 @@ public:
 	~Scene();
 
 	void init();
-	void update(int deltaTime);
+	void update(int deltaTime, bool movementLeft, bool movementRight, bool movementUp, bool movementDown);
 	void render();
 
 private:
 	void initShaders();
 
 private:
+	float x;
+	float y;
+	bool isJumpingLeft = false, isJumpingRight = false;
+	bool goingUp = false, goingDown = false;
+	float MAX_HEIGHT = 240.f;
+	float MIN_HEIGHT = 282.f;
 	Quad *quad;
+	Quad *cel;
+	TexturedQuad *terra;
 	Texture texs[2];
 	TexturedQuad *texQuad[3];
 	ShaderProgram simpleProgram, texProgram;
